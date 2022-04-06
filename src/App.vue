@@ -21,19 +21,6 @@ export default defineComponent({
       teasers: {},
     };
   },
-  mounted() {
-    this.fetchTeasers();
-  },
-  methods: {
-    fetchTeasers() {
-      fetch("/teasers.json")
-        .then((response) => response.json())
-        .then((teasers) => {
-          this.teasers = teasers;
-          console.log(this.teasers);
-        });
-    },
-  },
 });
 </script>
 
@@ -44,7 +31,7 @@ export default defineComponent({
         <component :is="Component" />
       </keep-alive>
     </router-view>
-    <TabBar :tabs="tabs" :teasers="teasers" />
+    <TabBar :tabs="tabs"/>
   </div>
 </template>
 

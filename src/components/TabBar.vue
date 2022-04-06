@@ -10,7 +10,6 @@ export default defineComponent({
   name: "TabBar",
   props: {
     tabs: Object as () => Array<Tab>,
-    teasers: Object,
   },
 });
 </script>
