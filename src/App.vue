@@ -1,30 +1,71 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import TabBar from "./components/TabBar.vue";
+
+export default defineComponent({
+  components: {
+    TabBar,
+  },
+  data() {
+    return {
+      tabs: [
+        {
+          name: "Now",
+          path: "/",
+        },
+        {
+          name: "Watched",
+          path: "/watched",
+        },
+      ],
+      teasers: {},
+    };
+  },
+  mounted() {
+    this.fetchTeasers();
+  },
+  methods: {
+    fetchTeasers() {
+      fetch("/teasers.json")
+        .then((response) => response.json())
+        .then((teasers) => {
+          this.teasers = teasers;
+          console.log(this.teasers);
+        });
+    },
+  },
+});
+</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div id="container">
+    <router-view class="content" v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+    <TabBar :tabs="tabs" :teasers="teasers" />
+  </div>
 </template>
 
 <style>
+@import "./assets/css/betterCSS.css";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  height: 100%;
+  width: 100%;
 }
 
-nav {
-  padding: 30px;
+#container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.content {
+  flex: 1;
 }
 </style>
