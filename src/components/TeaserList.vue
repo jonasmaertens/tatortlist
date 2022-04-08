@@ -8,7 +8,7 @@ export interface Teaser {
   image: string;
 }
 
-const emit = defineEmits(["openDetails"]);
+const emit = defineEmits(["teaserClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
 });
@@ -24,7 +24,7 @@ function convertDur(secs: number): string {
   <div class="teaserListWrapper">
     <ol class="teaserList">
       <li
-        @click="emit('openDetails', teaser)"
+        @click="emit('teaserClicked', teaser)"
         v-for="teaser in teasers"
         :key="teaser.id"
         class="teaserItem"
