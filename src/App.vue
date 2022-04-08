@@ -1,56 +1,44 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import TabBar from "./components/TabBar.vue";
 import { Teaser } from "./components/TeaserList.vue";
 import { useTeasersStore } from "./store/teasers";
+import { ref, onMounted } from "vue";
 
-export default defineComponent({
-  components: {
-    TabBar,
+const store = useTeasersStore();
+const tabs = ref([
+  {
+    name: "Now",
+    path: "/",
   },
-  data() {
-    return {
-      test: useTeasersStore(),
-      teasersWatched: [],
-      teasersNow: [],
-      tabs: [
-        {
-          name: "Now",
-          path: "/",
-        },
-        {
-          name: "Watched",
-          path: "/watched",
-        },
-      ],
-    };
+  {
+    name: "Watched",
+    path: "/watched",
   },
-  mounted() {
-    this.fetchTeasersWatched();
-    this.fetchTeasersNow();
-  },
-  methods: {
-    openDetails(teaser: Teaser) {
-      console.log(teaser);
-    },
-    fetchTeasersWatched() {
-      fetch("http://localhost:5000/jsonserver/watched")
-        .then((response) => response.json())
-        .then((teasers) => {
-          this.teasersWatched = teasers;
-          console.log(JSON.parse(JSON.stringify(this.teasersWatched)));
-        });
-    },
-    fetchTeasersNow() {
-      fetch("http://localhost:5000/api/now")
-        .then((response) => response.json())
-        .then((teasers) => {
-          this.teasersNow = teasers;
-          console.log(JSON.parse(JSON.stringify(this.teasersNow)));
-        });
-    },
-  },
+]);
+onMounted(() => {
+  fetchTeasersWatched();
+  fetchTeasersNow();
 });
+function openDetails(teaser: Teaser) {
+  console.log(teaser);
+}
+
+function fetchTeasersWatched() {
+  fetch("http://localhost:5000/jsonserver/watched")
+    .then((response) => response.json())
+    .then((teasers) => {
+      store.teasersWatched = teasers;
+      console.log(JSON.parse(JSON.stringify(store.teasersWatched)));
+    });
+}
+function fetchTeasersNow() {
+  fetch("http://localhost:5000/api/now")
+    .then((response) => response.json())
+    .then((teasers) => {
+      store.teasersNow = teasers;
+      console.log(JSON.parse(JSON.stringify(store.teasersNow)));
+    });
+}
 </script>
 
 <template>
@@ -60,8 +48,8 @@ export default defineComponent({
         <component
           :is="Component"
           @openDetails="openDetails"
-          :teasersNow="teasersNow"
-          :teasersWatched="teasersWatched"
+          :teasersNow="store.teasersNow"
+          :teasersWatched="store.teasersWatched"
         />
       </keep-alive>
     </router-view>

@@ -1,26 +1,18 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { onActivated } from "vue";
 import WatchedHeader from "@/components/WatchedHeader.vue";
-import TeaserList, { Teaser } from "@/components/TeaserList.vue";
+import TeaserList from "@/components/TeaserList.vue";
+import { useTeasersStore } from "@/store/teasers";
 
-export default defineComponent({
-  name: "NowView",
-  components: {
-    WatchedHeader,
-    TeaserList,
-  },
-  props: {
-    teasersNow: Object as () => Array<Teaser>,
-  },
-  activated() {
-    console.log("Switched to NowView");
-  },
+const store = useTeasersStore();
+onActivated(() => {
+  console.log("Switched to NowView");
 });
 </script>
 <template>
   <div class="now">
     <WatchedHeader class="header" />
-    <TeaserList :teasers="teasersNow" class="teaserListWrapper" />
+    <TeaserList :teasers="store.teasersNow" class="teaserListWrapper" />
   </div>
 </template>
 <style scoped>

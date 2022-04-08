@@ -1,5 +1,5 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { defineEmits, defineProps } from "vue";
 
 export interface Teaser {
   id: string;
@@ -8,29 +8,23 @@ export interface Teaser {
   image: string;
 }
 
-export default defineComponent({
-  name: "TeaserList",
-  emits: ["openDetails"],
-  props: {
-    teasers: Object as () => Array<Teaser>,
-  },
-  methods: {
-    convertDur(secs: number): string {
-      return (
-        Math.floor(secs / 3600).toString() +
-        ":" +
-        Math.floor((secs % 3600) / 60).toString()
-      );
-    },
-  },
+const emit = defineEmits(["openDetails"]);
+defineProps({
+  teasers: Object as () => Array<Teaser>,
 });
+function convertDur(secs: number): string {
+  return (
+    Math.floor(secs / 3600).toString() +
+    ":" +
+    Math.floor((secs % 3600) / 60).toString()
+  );
+}
 </script>
-
 <template>
   <div class="teaserListWrapper">
     <ol class="teaserList">
       <li
-        @click="$emit('openDetails', teaser)"
+        @click="emit('openDetails', teaser)"
         v-for="teaser in teasers"
         :key="teaser.id"
         class="teaserItem"

@@ -1,16 +1,13 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { defineProps } from "vue";
 
 interface Tab {
   name: string;
   path: string;
 }
 
-export default defineComponent({
-  name: "TabBar",
-  props: {
-    tabs: Object as () => Array<Tab>,
-  },
+defineProps({
+  tabs: Object as () => Array<Tab>,
 });
 </script>
 
