@@ -1,46 +1,36 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import WatchedHeader from "@/components/WatchedHeader.vue";
-import TeaserList from "@/components/TeaserList.vue";
+import TeaserList, { Teaser } from "@/components/TeaserList.vue";
 
 export default defineComponent({
   name: "WatchedView",
   components: {
     WatchedHeader,
+    TeaserList,
   },
-  data() {
-    return {
-      teasers: {}
-    }
-  }
-  mounted() {
-    this.fetchTeasers();
+  props: {
+    teasersWatched: Object as () => Array<Teaser>,
   },
-  methods: {
-    fetchTeasers() {
-      fetch("/teasers.json")
-        .then((response) => response.json())
-        .then((teasers) => {
-          this.teasers = teasers;
-          console.log(this.teasers);
-        });
-    },
+  activated() {
+    console.log("Switched to WatchedVieww");
   },
 });
 </script>
 <template>
   <div class="watched">
     <WatchedHeader class="header" />
-    <TeaserList :teasers="teasers" class="teaserList" />
+    <TeaserList :teasers="teasersWatched" class="teaserListWrapper" />
   </div>
 </template>
 <style scoped>
-  .watched{
-    display: flex;
-    flex-direction: column;
-  }
+.watched {
+  display: flex;
+  flex-direction: column;
+}
 
-  .teaserList{
-    flex: 1;
-  }
+.teaserListWrapper {
+  flex: 1;
+  overflow: hidden;
+}
 </style>

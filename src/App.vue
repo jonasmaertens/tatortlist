@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TabBar from "./components/TabBar.vue";
+import { Teaser } from "./components/TeaserList.vue";
+import { useTeasersStore } from "./store/teasers";
 
 export default defineComponent({
   components: {
@@ -8,6 +10,9 @@ export default defineComponent({
   },
   data() {
     return {
+      test: useTeasersStore(),
+      teasersWatched: [],
+      teasersNow: [],
       tabs: [
         {
           name: "Now",
@@ -18,8 +23,32 @@ export default defineComponent({
           path: "/watched",
         },
       ],
-      teasers: {},
     };
+  },
+  mounted() {
+    this.fetchTeasersWatched();
+    this.fetchTeasersNow();
+  },
+  methods: {
+    openDetails(teaser: Teaser) {
+      console.log(teaser);
+    },
+    fetchTeasersWatched() {
+      fetch("http://localhost:5000/jsonserver/watched")
+        .then((response) => response.json())
+        .then((teasers) => {
+          this.teasersWatched = teasers;
+          console.log(JSON.parse(JSON.stringify(this.teasersWatched)));
+        });
+    },
+    fetchTeasersNow() {
+      fetch("http://localhost:5000/api/now")
+        .then((response) => response.json())
+        .then((teasers) => {
+          this.teasersNow = teasers;
+          console.log(JSON.parse(JSON.stringify(this.teasersNow)));
+        });
+    },
   },
 });
 </script>
@@ -28,10 +57,15 @@ export default defineComponent({
   <div id="container">
     <router-view class="content" v-slot="{ Component }">
       <keep-alive>
-        <component :is="Component" />
+        <component
+          :is="Component"
+          @openDetails="openDetails"
+          :teasersNow="teasersNow"
+          :teasersWatched="teasersWatched"
+        />
       </keep-alive>
     </router-view>
-    <TabBar :tabs="tabs"/>
+    <TabBar :tabs="tabs" />
   </div>
 </template>
 
@@ -54,5 +88,6 @@ export default defineComponent({
 
 .content {
   flex: 1;
+  overflow: hidden;
 }
 </style>

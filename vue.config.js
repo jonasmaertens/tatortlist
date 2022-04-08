@@ -3,4 +3,9 @@ module.exports = {
   devServer: {
     allowedHosts: ["***REMOVED***"],
   },
+  pwa: {
+    workboxOptions: {
+      skipWaiting: true,
+    },
+  },
 };
