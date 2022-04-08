@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from "vue";
-
 export interface Teaser {
   id: string;
   title: string;
@@ -49,7 +47,7 @@ function convertDur(secs: number): string {
 .teaserList {
   overflow-y: scroll;
   margin: 0;
-  padding: 1.4em;
+  padding: 1em;
   height: 100%;
 }
 
@@ -59,11 +57,12 @@ function convertDur(secs: number): string {
   justify-content: flex-start;
   align-items: flex-start;
   margin-bottom: 1em;
-  background-color: #bbebff;
+  background-color: #f1f1f1;
+  box-shadow: 5px 5px 5px 0px rgb(0 0 0 / 50%);
 }
 
 .teaserItem img {
-  width: 40%;
+  width: 50%;
 }
 
 .text {

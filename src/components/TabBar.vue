@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
-
 interface Tab {
   name: string;
   path: string;
@@ -29,16 +27,18 @@ defineProps({
   justify-content: space-around;
   align-items: center;
   font-size: 2em;
+  box-shadow: 0px -6px 30px 0px #050d55;
 }
 
 .tabBarLink {
   flex: 1;
   padding: 0.3em;
-  color: white;
+  color: rgb(187, 187, 187);
   background-color: rgb(0, 14, 41, 0.5);
 }
 
 .tabBarLink.router-link-active {
+  color: white;
   background-color: rgba(0, 14, 41);
 }
 </style>

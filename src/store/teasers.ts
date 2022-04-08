@@ -14,4 +14,12 @@ export const useTeasersStore = defineStore("teasers", {
     teasersWatched: emptyTeaserList,
     teasersNow: emptyTeaserList,
   }),
+  getters: {
+    teasersNowNew: (state) =>
+      state.teasersNow.filter((teaser) => {
+        return !state.teasersWatched.find(
+          (teaserWatched) => teaserWatched.title == teaser.title
+        );
+      }),
+  },
 });

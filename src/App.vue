@@ -24,7 +24,7 @@ function openDetails(teaser: Teaser) {
 }
 
 function fetchTeasersWatched() {
-  fetch("http://localhost:5000/jsonserver/watched")
+  fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched")
     .then((response) => response.json())
     .then((teasers) => {
       store.teasersWatched = teasers;
@@ -32,7 +32,7 @@ function fetchTeasersWatched() {
     });
 }
 function fetchTeasersNow() {
-  fetch("http://localhost:5000/api/now")
+  fetch(process.env.VUE_APP_BASE_URI + "/api/now")
     .then((response) => response.json())
     .then((teasers) => {
       store.teasersNow = teasers;
@@ -45,12 +45,7 @@ function fetchTeasersNow() {
   <div id="container">
     <router-view class="content" v-slot="{ Component }">
       <keep-alive>
-        <component
-          :is="Component"
-          @openDetails="openDetails"
-          :teasersNow="store.teasersNow"
-          :teasersWatched="store.teasersWatched"
-        />
+        <component :is="Component" @openDetails="openDetails" />
       </keep-alive>
     </router-view>
     <TabBar :tabs="tabs" />
@@ -72,6 +67,7 @@ function fetchTeasersNow() {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: #242b7b;
 }
 
 .content {
