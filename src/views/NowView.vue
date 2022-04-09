@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onActivated } from "vue";
-import WatchedHeader from "@/components/WatchedHeader.vue";
 import TeaserList, { Teaser } from "@/components/TeaserList.vue";
 import { useTeasersStore } from "@/store/teasers";
 
@@ -17,28 +16,49 @@ function addToWatched(teaser: Teaser) {
     store.teasersWatched.push(teaser);
   });
 }
+function touchStart(touchEvent: TouchEvent) {
+  if (touchEvent.changedTouches.length !== 1) {
+    return;
+  }
+  const posXStart = touchEvent.changedTouches[0].clientX;
+  const posYStart = touchEvent.changedTouches[0].clientY;
+  addEventListener(
+    "touchend",
+    (touchEvent) => touchEnd(touchEvent, posXStart, posYStart),
+    { once: true }
+  );
+}
+function touchEnd(
+  touchEvent: TouchEvent,
+  posXStart: number,
+  posYStart: number
+) {
+  if (touchEvent.changedTouches.length !== 1) {
+    return;
+  }
+  const posXEnd = touchEvent.changedTouches[0].clientX;
+  const posYEnd = touchEvent.changedTouches[0].clientY;
+  if (1.5 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd)) {
+    return;
+  }
+  if (posXStart < posXEnd) {
+    return;
+  } else if (posXStart > posXEnd) {
+    emit("leftSwipe");
+  }
+}
 onActivated(() => {
   console.log("Switched to NowView");
 });
+const emit = defineEmits(["leftSwipe", "openDetails"]);
 </script>
 <template>
-  <div class="now">
-    <WatchedHeader class="header" />
+  <div class="now" @touchstart="touchStart">
     <TeaserList
       :teasers="store.teasersNowNew"
       class="teaserListWrapper"
-      @teaserClicked="addToWatched"
+      @teaserClicked="(teaser) => emit('openDetails', teaser)"
+      @addIconClicked="addToWatched"
     />
   </div>
 </template>
-<style scoped>
-.now {
-  display: flex;
-  flex-direction: column;
-}
-
-.teaserListWrapper {
-  flex: 1;
-  overflow: hidden;
-}
-</style>

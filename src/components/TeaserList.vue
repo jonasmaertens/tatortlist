@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AddToWatchedSVG from "../assets/svg/addWatched.vue";
 export interface Teaser {
   id: string;
   title: string;
@@ -6,7 +7,7 @@ export interface Teaser {
   image: string;
 }
 
-const emit = defineEmits(["teaserClicked"]);
+const emit = defineEmits(["teaserClicked", "addIconClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
 });
@@ -31,6 +32,10 @@ function convertDur(secs: number): string {
         <div class="text">
           <h2>{{ teaser.title }}</h2>
           <h3>{{ convertDur(teaser.duration) }}</h3>
+          <AddToWatchedSVG
+            class="svgIcon"
+            @click.stop="emit('addIconClicked', teaser)"
+          />
         </div>
       </li>
     </ol>
@@ -48,14 +53,12 @@ function convertDur(secs: number): string {
   overflow-y: scroll;
   margin: 0;
   padding: 1em;
-  height: 100%;
 }
-
 .teaserItem {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   margin-bottom: 1em;
   background-color: #f1f1f1;
   box-shadow: 5px 5px 5px 0px rgb(0 0 0 / 50%);
@@ -71,6 +74,7 @@ function convertDur(secs: number): string {
   padding-right: 8px;
   flex: 1;
   text-align: left;
+  position: relative;
 }
 
 .text h2 {
@@ -85,5 +89,16 @@ function convertDur(secs: number): string {
 
 .text h3 {
   font-size: 0.8em;
+}
+
+.text > .svgIcon {
+  padding: 5px;
+  width: 2.2em;
+  height: 2.2em;
+  cursor: pointer;
+  box-sizing: content-box;
+  position: absolute;
+  left: -10px;
+  bottom: 5px;
 }
 </style>

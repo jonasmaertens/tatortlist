@@ -29,6 +29,12 @@
       "id": "Y3JpZDovL2Rhc2Vyc3RlLmRlL3RhdG9ydC9lYzhhN2NhOS1kMjA3LTQwMjAtYjYwMy0zZDQwYTg5YzFmOGY",
       "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:240cdd474a041210?w={width}&f=&ch=303cdeee592b8837",
       "duration": 5313
+    },
+    {
+      "title": "Außer Gefecht",
+      "id": "Y3JpZDovL3N3ci5kZS9hZXgvbzE2MzIxNDE",
+      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:66faca96d34ead02?w={width}&f=&ch=1b5120163be98f9f",
+      "duration": 5423
     }
   ]
 }
