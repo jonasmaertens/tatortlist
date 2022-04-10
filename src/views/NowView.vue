@@ -56,8 +56,9 @@ const emit = defineEmits(["leftSwipe", "openDetails"]);
   <div class="now" @touchstart="touchStart">
     <TeaserList
       :teasers="store.teasersNowNew"
+      :add="true"
       class="teaserListWrapper"
-      @teaserClicked="(teaser) => emit('openDetails', teaser)"
+      @teaserClicked="(teaser, evt) => emit('openDetails', teaser, evt)"
       @addIconClicked="addToWatched"
     />
   </div>

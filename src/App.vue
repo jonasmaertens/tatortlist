@@ -7,6 +7,7 @@ import WatchedHeader from "@/components/WatchedHeader.vue";
 import TeaserDetails from "@/components/TeaserDetails.vue";
 
 let detailsOpen = ref(false);
+let lastClickPos = ref("center");
 let teaserDetail: Ref<Teaser> = ref({
   id: "1",
   title: "title",
@@ -28,12 +29,15 @@ onMounted(() => {
   fetchTeasersWatched();
   fetchTeasersNow();
 });
-function openDetails(teaser: Teaser) {
-  console.log(teaser);
+function openDetails(teaser: Teaser, evt: PointerEvent) {
+  console.log(teaser, evt.clientY - 20);
+  lastClickPos.value = evt.clientY - 20 + "px";
   detailsOpen.value = true;
   teaserDetail.value = teaser;
 }
-
+function closeDetails() {
+  detailsOpen.value = false;
+}
 function fetchTeasersWatched() {
   fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched")
     .then((response) => response.json())
@@ -57,7 +61,7 @@ function fetchTeasersNow() {
     <WatchedHeader class="header" />
     <div class="contentWrapper">
       <router-view v-slot="{ Component }" class="content">
-        <Transition name="fade">
+        <Transition name="slide">
           <keep-alive>
             <component
               :is="Component"
@@ -70,36 +74,51 @@ function fetchTeasersNow() {
       </router-view>
     </div>
     <TabBar :tabs="tabs" />
-    <TeaserDetails
-      v-if="detailsOpen"
-      :teaser="teaserDetail"
-      class="teaserDetails"
-    />
+    <Transition name="scale">
+      <TeaserDetails
+        v-if="detailsOpen"
+        :teaser="teaserDetail"
+        class="teaserDetails"
+        @close="closeDetails"
+        :style="{ 'transform-origin': 'center ' + lastClickPos }"
+      />
+    </Transition>
   </div>
 </template>
 
 <style>
 @import "./assets/css/betterCSS.css";
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 0.4s;
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.35s;
 }
 
-.fade-enter-from.now,
-.fade-leave-to.now {
+.slide-enter-from.now,
+.slide-leave-to.now {
   transform: translate(-100%, 0);
 }
 
-.fade-enter-to.now,
-.fade-leave-from.now,
-.fade-enter-to,
-.fade-leave-from {
+.slide-enter-to.now,
+.slide-leave-from.now,
+.slide-enter-to,
+.slide-leave-from {
   transform: translate(0, 0);
 }
 
-.fade-enter-from.watched,
-.fade-leave-to.watched {
+.slide-enter-from.watched,
+.slide-leave-to.watched {
   transform: translate(100%, 0);
+}
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: transform 0.1s;
+  transform-origin: bottom;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  transform: scale(1, 0.2);
 }
 
 #app {
@@ -142,6 +161,7 @@ function fetchTeasersNow() {
   right: 20px;
   bottom: 20px;
   background-color: #f1f1f1;
-  box-shadow: 5px 5px 5px 0px rgb(0 0 0 / 50%);
+  box-shadow: 0px 0px 20px 4px rgb(0 0 0);
+  text-align: left;
 }
 </style>

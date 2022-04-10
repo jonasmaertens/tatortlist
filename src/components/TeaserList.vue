@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AddToWatchedSVG from "../assets/svg/addWatched.vue";
+import RemoveFromWatched from "../assets/svg/removeWatched.vue";
 export interface Teaser {
   id: string;
   title: string;
@@ -10,6 +11,7 @@ export interface Teaser {
 const emit = defineEmits(["teaserClicked", "addIconClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
+  add: Boolean,
 });
 function convertDur(secs: number): string {
   return (
@@ -23,7 +25,7 @@ function convertDur(secs: number): string {
   <div class="teaserListWrapper">
     <ol class="teaserList">
       <li
-        @click="emit('teaserClicked', teaser)"
+        @click="(evt) => emit('teaserClicked', teaser, evt)"
         v-for="teaser in teasers"
         :key="teaser.id"
         class="teaserItem"
@@ -33,6 +35,12 @@ function convertDur(secs: number): string {
           <h2>{{ teaser.title }}</h2>
           <h3>{{ convertDur(teaser.duration) }}</h3>
           <AddToWatchedSVG
+            v-if="add"
+            class="svgIcon"
+            @click.stop="emit('addIconClicked', teaser)"
+          />
+          <RemoveFromWatched
+            v-else
             class="svgIcon"
             @click.stop="emit('addIconClicked', teaser)"
           />
