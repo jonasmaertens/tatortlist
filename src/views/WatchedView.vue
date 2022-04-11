@@ -55,9 +55,8 @@ const emit = defineEmits(["rightSwipe", "openDetails"]);
   <div class="watched" @touchstart="touchStart">
     <TeaserList
       :teasers="store.teasersWatched"
-      :add="false"
+      btnPath="removeWatched.svg"
       class="teaserListWrapper"
-      @teaserClicked="(teaser, evt) => emit('openDetails', teaser, evt)"
       @addIconClicked="removeFromWatched"
     />
   </div>

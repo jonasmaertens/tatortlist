@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import AddToWatchedSVG from "../assets/svg/addWatched.vue";
-import RemoveFromWatched from "../assets/svg/removeWatched.vue";
 export interface Teaser {
   id: string;
   title: string;
@@ -11,7 +9,7 @@ export interface Teaser {
 const emit = defineEmits(["teaserClicked", "addIconClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
-  add: Boolean,
+  btnPath: String,
 });
 function convertDur(secs: number): string {
   return (
@@ -34,13 +32,8 @@ function convertDur(secs: number): string {
         <div class="text">
           <h2>{{ teaser.title }}</h2>
           <h3>{{ convertDur(teaser.duration) }}</h3>
-          <AddToWatchedSVG
-            v-if="add"
-            class="svgIcon"
-            @click.stop="emit('addIconClicked', teaser)"
-          />
-          <RemoveFromWatched
-            v-else
+          <img
+            :src="require(`../assets/svg/${btnPath}`)"
             class="svgIcon"
             @click.stop="emit('addIconClicked', teaser)"
           />

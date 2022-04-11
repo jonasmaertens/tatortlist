@@ -16,7 +16,7 @@ function fetchTeaserDetails() {
     .then((response) => response.json())
     .then((data) => data.widgets[0])
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       desc.value = data.synopsis;
       let mediaArray =
         data.mediaCollection.embedded._mediaArray[0]._mediaStreamArray;

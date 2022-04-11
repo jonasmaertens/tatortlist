@@ -17,11 +17,11 @@ let teaserDetail: Ref<Teaser> = ref({
 const store = useTeasersStore();
 const tabs = ref([
   {
-    name: "Now",
+    name: "Verfügbar",
     path: "/",
   },
   {
-    name: "Watched",
+    name: "Gesehen",
     path: "/watched",
   },
 ]);
@@ -30,7 +30,7 @@ onMounted(() => {
   fetchTeasersNow();
 });
 function openDetails(teaser: Teaser, evt: PointerEvent) {
-  console.log(teaser, evt.clientY - 20);
+  //console.log(teaser, evt.clientY - 20);
   lastClickPos.value = evt.clientY - 20 + "px";
   detailsOpen.value = true;
   teaserDetail.value = teaser;

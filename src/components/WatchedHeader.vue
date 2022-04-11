@@ -1,9 +1,6 @@
-<script setup lang="ts">
-import TatortSVG from "../assets/svg/tatortText.vue";
-</script>
 <template>
   <div class="header">
-    <TatortSVG />
+    <img src="../assets/svg/tatortText.svg" />
   </div>
 </template>
 <style scoped>
@@ -12,8 +9,9 @@ import TatortSVG from "../assets/svg/tatortText.vue";
   font-size: 2em;
 }
 
-svg {
+img {
   padding-top: 15px;
   height: 60px;
+  margin: 0 auto;
 }
 </style>
