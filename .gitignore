@@ -2,6 +2,7 @@
 node_modules
 /dist
 /server/public/*
+!/server/public/.placeholder
 
 # local env files
 .env.local
