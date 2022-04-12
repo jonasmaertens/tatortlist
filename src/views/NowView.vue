@@ -5,7 +5,7 @@ import { useTeasersStore } from "@/store/teasers";
 
 const store = useTeasersStore();
 function addToWatched(teaser: Teaser) {
-  fetch("http://localhost:5000/jsonserver/watched", {
+  fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

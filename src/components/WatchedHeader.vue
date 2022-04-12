@@ -10,8 +10,7 @@
 }
 
 img {
-  padding-top: 15px;
-  height: 60px;
-  margin: 0 auto;
+  height: 45px;
+  margin: 15px auto;
 }
 </style>

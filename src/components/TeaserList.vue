@@ -53,7 +53,7 @@ function convertDur(secs: number): string {
 .teaserList {
   overflow-y: scroll;
   margin: 0;
-  padding: 1em;
+  padding: 0 1em;
 }
 .teaserItem {
   display: flex;
@@ -101,5 +101,23 @@ function convertDur(secs: number): string {
   position: absolute;
   left: -10px;
   bottom: 5px;
+}
+
+@media screen and (max-width: 435px) {
+  .text {
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 395px) {
+  .text {
+    font-size: 0.8em;
+  }
+}
+
+@media screen and (max-width: 355px) {
+  .text {
+    font-size: 0.7em;
+  }
 }
 </style>

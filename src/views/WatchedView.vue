@@ -5,7 +5,7 @@ import { useTeasersStore } from "@/store/teasers";
 
 const store = useTeasersStore();
 function removeFromWatched(teaser: Teaser) {
-  fetch("http://localhost:5000/jsonserver/watched/" + teaser.id, {
+  fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched/" + teaser.id, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

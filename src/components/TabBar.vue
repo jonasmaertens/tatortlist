@@ -3,7 +3,7 @@ interface Tab {
   name: string;
   path: string;
 }
-
+const emit = defineEmits(["closeDetails"]);
 defineProps({
   tabs: Object as () => Array<Tab>,
 });
@@ -16,6 +16,7 @@ defineProps({
       v-for="tab in tabs"
       :key="tab.name"
       :to="tab.path"
+      @click="emit('closeDetails')"
       >{{ tab.name }}</router-link
     >
   </nav>
@@ -27,12 +28,14 @@ defineProps({
   justify-content: space-around;
   align-items: center;
   font-size: 2em;
-  box-shadow: 0px -6px 30px 0px #050d55;
+  z-index: 10;
+  box-shadow: 0px -6px 30px 0px #000000;
 }
 
 .tabBarLink {
   flex: 1;
-  padding: 0.3em;
+  font-size: 0.8em;
+  padding: 0.5em;
   color: rgb(187, 187, 187);
   background-color: rgb(0, 14, 41, 0.5);
 }

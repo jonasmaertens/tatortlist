@@ -73,7 +73,7 @@ function fetchTeasersNow() {
         </Transition>
       </router-view>
     </div>
-    <TabBar :tabs="tabs" />
+    <TabBar :tabs="tabs" @closeDetails="closeDetails" />
     <Transition name="scale">
       <TeaserDetails
         v-if="detailsOpen"

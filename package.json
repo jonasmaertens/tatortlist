@@ -1,10 +1,11 @@
 {
   "name": "tatortlist",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "postbuild":"rm -r .\/server\/public\/* && cp -a .\/dist\/. .\/server\/public\/",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

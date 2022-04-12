@@ -29,7 +29,7 @@ for i in range(pages):
                     'image': teaser['images']['aspect16x9']['src'],
                     'duration': teaser['duration']} for teaser in new_teasers if teaser['duration'] > 3600]
     teasers += new_teasers
-print(f"{num = }, {pages = }, {len(teasers) = }")
+print(f"num = {num}, pages = {pages}, len(teasers) = {len(teasers)}")
 
 for teaser in teasers:
     teaser['title'] = clean_title(teaser['title'])
@@ -38,7 +38,7 @@ dupes = []
 for i in range(len(teasers)):
     for j in range(i+1, len(teasers)):
         if teasers[i]['title'] == teasers[j]['title']:
-            print(teasers[i]['title'])
+            #print(teasers[i]['title'])
             # print(teasers[i]['id'])
             # print(teasers[j]['id'])
             # print(teasers[i]['image'])
