@@ -5,7 +5,11 @@ import { useTeasersStore } from "./store/teasers";
 import { ref, onMounted, Ref } from "vue";
 import WatchedHeader from "@/components/WatchedHeader.vue";
 import TeaserDetails from "@/components/TeaserDetails.vue";
+import LoaderOverlay from "./components/LoaderOverlay.vue";
 
+let nowLoaded = ref(false);
+let watchedLoaded = ref(false);
+let allLoaded = ref(false);
 let detailsOpen = ref(false);
 let lastClickPos = ref("center");
 let teaserDetail: Ref<Teaser> = ref({
@@ -28,6 +32,7 @@ const tabs = ref([
 onMounted(() => {
   fetchTeasersWatched();
   fetchTeasersNow();
+  fetchTeasersAll();
 });
 function openDetails(teaser: Teaser, evt: PointerEvent) {
   //console.log(teaser, evt.clientY - 20);
@@ -43,7 +48,8 @@ function fetchTeasersWatched() {
     .then((response) => response.json())
     .then((teasers) => {
       store.teasersWatched = teasers;
-      console.log(JSON.parse(JSON.stringify(store.teasersWatched)));
+      watchedLoaded.value = true;
+      //console.log(JSON.parse(JSON.stringify(store.teasersWatched)));
     });
 }
 function fetchTeasersNow() {
@@ -51,7 +57,17 @@ function fetchTeasersNow() {
     .then((response) => response.json())
     .then((teasers) => {
       store.teasersNow = teasers;
-      console.log(JSON.parse(JSON.stringify(store.teasersNow)));
+      nowLoaded.value = true;
+      //console.log(JSON.parse(JSON.stringify(store.teasersNow)));
+    });
+}
+function fetchTeasersAll() {
+  fetch(process.env.VUE_APP_BASE_URI + "/api/all")
+    .then((response) => response.json())
+    .then((teasers) => {
+      store.teasersAll = teasers;
+      allLoaded.value = true;
+      //console.log(JSON.parse(JSON.stringify(store.teasersAll)));
     });
 }
 </script>
@@ -84,6 +100,7 @@ function fetchTeasersNow() {
       />
     </Transition>
   </div>
+  <LoaderOverlay v-if="!watchedLoaded || !nowLoaded || !allLoaded" />
 </template>
 
 <style>
@@ -151,7 +168,7 @@ function fetchTeasersNow() {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .teaserDetails {

@@ -81,4 +81,27 @@ app.get("/api/now", (req, res) => {
   }
 });
 
+app.get("/api/all", (req, res) => {
+  if (process.env.NODE_ENV == "development") {
+    res.sendFile(__dirname + "/alle.json");
+  } else {
+    res.set("Cache-control", "public, max-age=300");
+    const child = child_process.spawnSync(pyname, ["fetchDasErsteList.py"]);
+    console.log("Starting " + pyname);
+    if (child.error) {
+      console.log("ERROR: ", child.error);
+      res.status(500).send("ERROR: " + child.error);
+    }
+    console.log(
+      "Python finished with code: ",
+      child.status + " and output: " + child.stdout
+    );
+    try {
+      res.sendFile(__dirname + "/alle.json");
+    } catch (error) {
+      res.status(500).send("ERROR: " + error);
+    }
+  }
+});
+
 app.use("/jsonserver", json_server.router("teasers_watched.json"));

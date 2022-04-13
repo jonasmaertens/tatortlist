@@ -37,7 +37,10 @@ function touchEnd(
   }
   const posXEnd = touchEvent.changedTouches[0].clientX;
   const posYEnd = touchEvent.changedTouches[0].clientY;
-  if (1.5 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd)) {
+  if (
+    0.9 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd) ||
+    Math.abs(posYStart - posYEnd) > 100
+  ) {
     return;
   }
   if (posXStart < posXEnd) {

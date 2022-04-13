@@ -5,15 +5,23 @@ import { useTeasersStore } from "@/store/teasers";
 
 const store = useTeasersStore();
 function addToWatched(teaser: Teaser) {
+  const teaserToSend: Teaser = {
+    id: teaser.id,
+    title: teaser.title,
+    duration: teaser.duration,
+    image: teaser.image,
+  };
   fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(teaser),
+    body: JSON.stringify(teaserToSend),
   }).then((res) => {
     console.log(res);
-    store.teasersWatched.push(teaser);
+    if (!store.teasersWatched.some((teaser) => teaserToSend.id === teaser.id)) {
+      store.teasersWatched.push(teaserToSend);
+    }
   });
 }
 function touchStart(touchEvent: TouchEvent) {
@@ -38,7 +46,10 @@ function touchEnd(
   }
   const posXEnd = touchEvent.changedTouches[0].clientX;
   const posYEnd = touchEvent.changedTouches[0].clientY;
-  if (1.5 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd)) {
+  if (
+    0.9 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd) ||
+    Math.abs(posYStart - posYEnd) > 100
+  ) {
     return;
   }
   if (posXStart < posXEnd) {
@@ -55,7 +66,7 @@ const emit = defineEmits(["leftSwipe", "openDetails"]);
 <template>
   <div class="now" @touchstart="touchStart">
     <TeaserList
-      :teasers="store.teasersNowNew"
+      :teasers="store.teasersFiltered"
       btnPath="addWatched.svg"
       class="teaserListWrapper"
       @teaserClicked="(teaser, evt) => emit('openDetails', teaser, evt)"

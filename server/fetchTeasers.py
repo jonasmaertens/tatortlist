@@ -49,6 +49,7 @@ for i in range(len(teasers)):
             dupes.append(j)
 # delete duplicates
 for i in sorted(dupes, reverse=True):
+    #print(teasers[i]['title'])
     del teasers[i]
 print("Remaining: "+str(len(teasers)))
 # write to json file

@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { useTeasersStore } from "@/store/teasers";
+
 export interface Teaser {
   id: string;
   title: string;
   duration: number;
   image: string;
 }
-
+const store = useTeasersStore();
 const emit = defineEmits(["teaserClicked", "addIconClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
@@ -21,7 +23,7 @@ function convertDur(secs: number): string {
 </script>
 <template>
   <div class="teaserListWrapper">
-    <ol class="teaserList">
+    <TransitionGroup class="teaserList" tag="ol" name="list">
       <li
         @click="(evt) => emit('teaserClicked', teaser, evt)"
         v-for="teaser in teasers"
@@ -39,7 +41,7 @@ function convertDur(secs: number): string {
           />
         </div>
       </li>
-    </ol>
+    </TransitionGroup>
   </div>
 </template>
 
@@ -51,7 +53,6 @@ function convertDur(secs: number): string {
 }
 
 .teaserList {
-  overflow-y: scroll;
   margin: 0;
   padding: 0 1em;
 }
@@ -101,6 +102,22 @@ function convertDur(secs: number): string {
   position: absolute;
   left: -10px;
   bottom: 5px;
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(80px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 
 @media screen and (max-width: 435px) {
