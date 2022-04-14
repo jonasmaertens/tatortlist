@@ -27,7 +27,6 @@ function resetFilters() {
           />
           <label for="watched" class="control__label">Nur ungesehene</label>
         </div>
-        <br />
         <label for="teams">Teams</label>
         <select
           multiple
@@ -40,7 +39,7 @@ function resetFilters() {
             {{ team }}
           </option>
         </select>
-        <label for="City">Städte</label>
+        <label for="city">Städte</label>
         <select
           multiple
           size="1"
@@ -52,7 +51,13 @@ function resetFilters() {
             {{ city }}
           </option>
         </select>
-        <input type="date" class="input" v-model="store.filters.after" />
+        <label for="datepicker">Neuer als</label>
+        <input
+          type="date"
+          class="input"
+          v-model="store.filters.after"
+          id="datepicker"
+        />
         <button class="button" @click="resetFilters">Zurücksetzen</button>
       </div>
     </Transition>
@@ -72,8 +77,8 @@ function resetFilters() {
 }
 
 .logo {
-  height: 45px;
-  margin: 15px auto;
+  height: 35px;
+  margin: 10px auto;
   grid-area: 1 / 2 / 2 / 3;
 }
 
@@ -84,7 +89,6 @@ select {
 .filters {
   grid-area: 2 / 1 / 3 / 4;
   text-align: left;
-  font-size: 1.4em;
   overflow: hidden;
 }
 
@@ -95,7 +99,7 @@ select {
   align-items: center;
 }
 .filterIcon {
-  height: 55px;
+  height: 40px;
 }
 
 .expand-enter-active,

@@ -11,18 +11,19 @@ function addToWatched(teaser: Teaser) {
     duration: teaser.duration,
     image: teaser.image,
   };
-  fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(teaserToSend),
-  }).then((res) => {
-    console.log(res);
-    if (!store.teasersWatched.some((teaser) => teaserToSend.id === teaser.id)) {
+  if (!store.teasersWatched.some((teaser) => teaserToSend.id === teaser.id)) {
+    fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(teaserToSend),
+    }).then((res) => {
+      console.log(res);
+
       store.teasersWatched.push(teaserToSend);
-    }
-  });
+    });
+  }
 }
 function touchStart(touchEvent: TouchEvent) {
   if (touchEvent.changedTouches.length !== 1) {
@@ -48,7 +49,8 @@ function touchEnd(
   const posYEnd = touchEvent.changedTouches[0].clientY;
   if (
     0.9 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd) ||
-    Math.abs(posYStart - posYEnd) > 100
+    Math.abs(posYStart - posYEnd) > 100 ||
+    Math.abs(posXStart - posXEnd) < 20
   ) {
     return;
   }

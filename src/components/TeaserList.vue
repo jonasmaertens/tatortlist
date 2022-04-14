@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { useTeasersStore } from "@/store/teasers";
-
 export interface Teaser {
   id: string;
   title: string;
   duration: number;
   image: string;
 }
-const store = useTeasersStore();
 const emit = defineEmits(["teaserClicked", "addIconClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
@@ -30,7 +27,12 @@ function convertDur(secs: number): string {
         :key="teaser.id"
         class="teaserItem"
       >
-        <img :src="teaser.image.split('{width}')[0] + '400'" />
+        <img
+          :src="
+            teaser.image.split('{width}')[0] +
+            '368&f=&ch=ba4ea116720684f8&imwidth=368'
+          "
+        />
         <div class="text">
           <h2>{{ teaser.title }}</h2>
           <h3>{{ convertDur(teaser.duration) }}</h3>
@@ -80,11 +82,11 @@ function convertDur(secs: number): string {
 }
 
 .text h2 {
-  font-size: 1.2em;
+  font-size: 1em;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -95,8 +97,8 @@ function convertDur(secs: number): string {
 
 .text > .svgIcon {
   padding: 5px;
-  width: 2.2em;
-  height: 2.2em;
+  width: 2em;
+  height: 2em;
   cursor: pointer;
   box-sizing: content-box;
   position: absolute;

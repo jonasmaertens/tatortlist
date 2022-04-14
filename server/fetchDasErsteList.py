@@ -1,8 +1,9 @@
-import grequests
+import requests
 from bs4 import BeautifulSoup
 import json
 import os
 from collections import defaultdict
+import time
 
 
 alle = defaultdict(list)
@@ -35,11 +36,16 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 # num_pages = int(pagination.split(" | ")[1])
 num_pages = 25
 print(f"Pages: {num_pages}")
-rs = (grequests.get(u) for u in [f"https://www.daserste.de/unterhaltung/krimi/tatort/sendung/tatort-alle-faelle-100~_seite-{i}.html" for i in range(num_pages)])
-print([add_to_list(resp.text) for resp in grequests.map(rs)])
+# rs = (grequests.get(u) for u in [f"https://www.daserste.de/unterhaltung/krimi/tatort/sendung/tatort-alle-faelle-100~_seite-{i}.html" for i in range(num_pages)])
+# print([add_to_list(resp.text) for resp in grequests.map(rs)])
+for i in range(num_pages):
+    #print(i, end="...", flush=True)
+    resp = requests.get(f"https://www.daserste.de/unterhaltung/krimi/tatort/sendung/tatort-alle-faelle-100~_seite-{i}.html")
+    resp.encoding = 'UTF-8'
+    add_to_list(resp.text)
+    time.sleep(0.2)
 
-
-print(f"{len(alle) = }")
+print(f"\nAlle: {len(alle)}")
 # save to json
 with open(os.path.join(dir_path, "alle.json"), "w", encoding="utf-8") as f:
     json.dump(alle, f, ensure_ascii=False)

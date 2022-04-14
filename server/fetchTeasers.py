@@ -2,6 +2,7 @@ import math
 import requests
 import json
 import re
+import time
 
 
 def clean_title(title):
@@ -20,6 +21,7 @@ data = resp.json()
 num = int(data['pagination']['totalElements'])
 pages = math.ceil(num / 50)
 for i in range(pages):
+    time.sleep(0.4)
     resp = requests.get(
         'https://api.ardmediathek.de/page-gateway/widgets/ard/compilation/71IpTwcl8yta2O3eVCSJR0?pageNumber=' + str(i) + '&pageSize=50')
     data = resp.json()
