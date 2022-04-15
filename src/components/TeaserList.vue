@@ -5,10 +5,16 @@ export interface Teaser {
   duration: number;
   image: string;
 }
-const emit = defineEmits(["teaserClicked", "addIconClicked"]);
+
+interface Icon {
+  svg: string;
+  event: string;
+}
+
+const emit = defineEmits(["teaserClicked", "iconClicked"]);
 defineProps({
   teasers: Object as () => Array<Teaser>,
-  btnPath: String,
+  icons: Object as () => Array<Icon>,
 });
 function convertDur(secs: number): string {
   return (
@@ -28,6 +34,7 @@ function convertDur(secs: number): string {
         class="teaserItem"
       >
         <img
+          class="teaserImage"
           :src="
             teaser.image.split('{width}')[0] +
             '368&f=&ch=ba4ea116720684f8&imwidth=368'
@@ -36,11 +43,15 @@ function convertDur(secs: number): string {
         <div class="text">
           <h2>{{ teaser.title }}</h2>
           <h3>{{ convertDur(teaser.duration) }}</h3>
-          <img
-            :src="require(`../assets/svg/${btnPath}`)"
-            class="svgIcon"
-            @click.stop="emit('addIconClicked', teaser)"
-          />
+          <div class="icons">
+            <img
+              v-for="icon in icons"
+              :key="icon.event"
+              :src="require(`../assets/svg/${icon.svg}`)"
+              class="svgIcon"
+              @click.stop="emit('iconClicked', teaser, icon.event)"
+            />
+          </div>
         </div>
       </li>
     </TransitionGroup>
@@ -68,7 +79,7 @@ function convertDur(secs: number): string {
   box-shadow: 5px 5px 5px 0px rgb(0 0 0 / 50%);
 }
 
-.teaserItem img {
+.teaserImage {
   width: 50%;
 }
 
@@ -95,15 +106,18 @@ function convertDur(secs: number): string {
   font-size: 0.8em;
 }
 
-.text > .svgIcon {
+.icons {
+  position: absolute;
+  left: -10px;
+  bottom: 5px;
+  display: flex;
+}
+.svgIcon {
   padding: 5px;
   width: 2em;
   height: 2em;
   cursor: pointer;
   box-sizing: content-box;
-  position: absolute;
-  left: -10px;
-  bottom: 5px;
 }
 
 .list-move,

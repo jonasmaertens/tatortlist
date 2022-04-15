@@ -1,0 +1,19 @@
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.35s;
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  transform: translate(0, 0);
+}
+
+.slide-enter-from.right,
+.slide-leave-to.right {
+  transform: translate(100%, 0);
+}
+
+.slide-enter-from.left,
+.slide-leave-to.left {
+  transform: translate(-100%, 0);
+}

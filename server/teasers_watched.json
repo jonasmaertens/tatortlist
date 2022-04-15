@@ -1,4 +1,12 @@
 {
+  "watchlist": [
+    {
+      "id": "Y3JpZDovL3dkci5kZS9CZWl0cmFnLTUwYmJhNDExLTkwZGEtNGIyMy04ZmQzLTgyZGI0YzA2ZmU2OQ",
+      "title": "Waldlust",
+      "duration": 5328,
+      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:7320df4b0909ed78?w={width}&f=&ch=0cda483d75a7f67e"
+    }
+  ],
   "watched": [
     {
       "title": "Der scheidende Schupo",
@@ -47,26 +55,16 @@
       ]
     },
     {
-      "title": "Neugeboren",
-      "id": "Y3JpZDovL25kci5kZS80ZmE4MzEzMy04MzI2LTQxMTMtODNkNS0yNDUwZjJhZDA3MjY",
-      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0887e9c49f8c2a11?w={width}&f=&ch=001788ab627f2b7d",
-      "duration": 5294,
-      "watched": false,
-      "team": [
-        "Andersen, Selb, Moormann"
-      ],
-      "city": [
-        "Bremen"
-      ],
-      "date": [
-        "2021-05-24T10:00:00.000Z"
-      ]
-    },
-    {
       "id": "Y3JpZDovL2Rhc2Vyc3RlLmRlL3RhdG9ydC81MzY2ODY0ZC03NjkxLTRkM2YtYmJmYS04YjI0NzI4ZjVmNGU",
       "title": "Hubertys Rache",
       "duration": 5318,
       "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:82b6c084b1d69e03?w={width}&f=&ch=8ec70e04d56ab987"
+    },
+    {
+      "id": "Y3JpZDovL25kci5kZS80ZmE4MzEzMy04MzI2LTQxMTMtODNkNS0yNDUwZjJhZDA3MjY",
+      "title": "Neugeboren",
+      "duration": 5294,
+      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0887e9c49f8c2a11?w={width}&f=&ch=001788ab627f2b7d"
     }
   ]
 }

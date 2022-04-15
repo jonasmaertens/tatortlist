@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { onActivated } from "vue";
 import TeaserList, { Teaser } from "@/components/TeaserList.vue";
 import { useTeasersStore } from "@/store/teasers";
 
 const store = useTeasersStore();
+function addTeaserHandler(teaser: Teaser, evt: string) {
+  if (evt === "addWatched") {
+    addToWatched(teaser);
+  } else if (evt === "addWatchlist") {
+    addToWatchlist(teaser);
+  }
+}
 function addToWatched(teaser: Teaser) {
   const teaserToSend: Teaser = {
     id: teaser.id,
@@ -22,6 +28,27 @@ function addToWatched(teaser: Teaser) {
       console.log(res);
 
       store.teasersWatched.push(teaserToSend);
+    });
+  }
+}
+function addToWatchlist(teaser: Teaser) {
+  const teaserToSend: Teaser = {
+    id: teaser.id,
+    title: teaser.title,
+    duration: teaser.duration,
+    image: teaser.image,
+  };
+  if (!store.teasersWatchlist.some((teaser) => teaserToSend.id === teaser.id)) {
+    fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watchlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(teaserToSend),
+    }).then((res) => {
+      console.log(res);
+
+      store.teasersWatchlist.push(teaserToSend);
     });
   }
 }
@@ -48,31 +75,30 @@ function touchEnd(
   const posXEnd = touchEvent.changedTouches[0].clientX;
   const posYEnd = touchEvent.changedTouches[0].clientY;
   if (
-    0.9 * Math.abs(posXStart - posXEnd) < Math.abs(posYStart - posYEnd) ||
-    Math.abs(posYStart - posYEnd) > 100 ||
-    Math.abs(posXStart - posXEnd) < 20
+    0.9 * Math.abs(posXStart - posXEnd) > Math.abs(posYStart - posYEnd) &&
+    Math.abs(posYStart - posYEnd) < 50 &&
+    Math.abs(posXStart - posXEnd) > 20
   ) {
-    return;
-  }
-  if (posXStart < posXEnd) {
-    return;
-  } else if (posXStart > posXEnd) {
-    emit("leftSwipe");
+    if (posXStart > posXEnd) {
+      emit("swipe", "/watched");
+    } else if (posXStart < posXEnd) {
+      emit("swipe", "/watchlist");
+    }
   }
 }
-onActivated(() => {
-  console.log("Switched to NowView");
-});
-const emit = defineEmits(["leftSwipe", "openDetails"]);
+const emit = defineEmits(["swipe", "openDetails"]);
 </script>
 <template>
-  <div class="now" @touchstart="touchStart">
+  <div :class="store.nowPos" @touchstart="touchStart">
     <TeaserList
       :teasers="store.teasersFiltered"
-      btnPath="addWatched.svg"
+      :icons="[
+        { svg: 'seen.svg', event: 'addWatched' },
+        { svg: 'addWatched.svg', event: 'addWatchlist' },
+      ]"
       class="teaserListWrapper"
       @teaserClicked="(teaser, evt) => emit('openDetails', teaser, evt)"
-      @addIconClicked="addToWatched"
+      @iconClicked="addTeaserHandler"
     />
   </div>
 </template>

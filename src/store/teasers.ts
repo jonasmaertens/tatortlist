@@ -37,9 +37,11 @@ const emptyFilterArray: FilterArray = {
 export const useTeasersStore = defineStore("teasers", {
   state: () => ({
     teasersWatched: emptyTeaserArray,
+    teasersWatchlist: emptyTeaserArray,
     teasersNow: emptyTeaserArray,
     teasersAll: emptyTeaserDetailObj,
     filters: emptyFilterArray,
+    nowPos: "left",
   }),
   getters: {
     teasersNowNew: (state) =>
@@ -87,16 +89,20 @@ export const useTeasersStore = defineStore("teasers", {
               : true)
         ),
     teams: (state) =>
-      new Set(
-        Object.values(state.teasersAll)
-          .flat()
-          .map((teaser) => teaser.team)
-      ),
+      Array.from(
+        new Set(
+          Object.values(state.teasersAll)
+            .flat()
+            .map((teaser) => teaser.team)
+        )
+      ).sort(),
     cities: (state) =>
-      new Set(
-        Object.values(state.teasersAll)
-          .flat()
-          .map((teaser) => teaser.city)
-      ),
+      Array.from(
+        new Set(
+          Object.values(state.teasersAll)
+            .flat()
+            .map((teaser) => teaser.city)
+        )
+      ).sort(),
   },
 });
