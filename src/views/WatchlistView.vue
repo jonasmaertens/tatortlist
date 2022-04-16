@@ -3,7 +3,7 @@ import TeaserList, { Teaser } from "@/components/TeaserList.vue";
 import { useTeasersStore } from "@/store/teasers";
 
 const store = useTeasersStore();
-function removeFromWatchlist(teaser: Teaser) {
+function removeFromWatchlist(teaser: Teaser, evt: string) {
   fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watchlist/" + teaser.id, {
     method: "DELETE",
     headers: {
@@ -13,6 +13,30 @@ function removeFromWatchlist(teaser: Teaser) {
     console.log(res);
     store.teasersWatchlist.splice(store.teasersWatchlist.indexOf(teaser), 1);
   });
+  if (evt === "seenIconClicked") {
+    addToWatched(teaser);
+  }
+}
+function addToWatched(teaser: Teaser) {
+  const teaserToSend: Teaser = {
+    id: teaser.id,
+    title: teaser.title,
+    duration: teaser.duration,
+    image: teaser.image,
+  };
+  if (!store.teasersWatched.some((teaser) => teaserToSend.id === teaser.id)) {
+    fetch(process.env.VUE_APP_BASE_URI + "/jsonserver/watched", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(teaserToSend),
+    }).then((res) => {
+      console.log(res);
+
+      store.teasersWatched.push(teaserToSend);
+    });
+  }
 }
 function touchStart(touchEvent: TouchEvent) {
   if (touchEvent.changedTouches.length !== 1) {
@@ -52,7 +76,10 @@ const emit = defineEmits(["swipe", "openDetails"]);
   <div class="left" @touchstart="touchStart">
     <TeaserList
       :teasers="store.teasersWatchlist"
-      :icons="[{ svg: 'removeWatched.svg', event: 'removeIconClicked' }]"
+      :icons="[
+        { svg: 'removeWatched.svg', event: 'removeIconClicked' },
+        { svg: 'seen.svg', event: 'seenIconClicked' },
+      ]"
       class="teaserListWrapper"
       @iconClicked="removeFromWatchlist"
     />

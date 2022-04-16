@@ -1,12 +1,5 @@
 {
-  "watchlist": [
-    {
-      "id": "Y3JpZDovL3dkci5kZS9CZWl0cmFnLTUwYmJhNDExLTkwZGEtNGIyMy04ZmQzLTgyZGI0YzA2ZmU2OQ",
-      "title": "Waldlust",
-      "duration": 5328,
-      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:7320df4b0909ed78?w={width}&f=&ch=0cda483d75a7f67e"
-    }
-  ],
+  "watchlist": [],
   "watched": [
     {
       "title": "Der scheidende Schupo",
@@ -25,12 +18,6 @@
       "id": "Y3JpZDovL2Rhc2Vyc3RlLmRlL3RhdG9ydCAvMjAyMS0xMC0xOFQyMjoxNTowMF80ZWZjNjdkZi04OWYzLTRhMTYtYmI2Ny04YzAxMTUxNzI2ZjAvdGF0b3J0LS1pbS12aXNpZXI",
       "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:478d9a58ab46caeb?w={width}&f=&ch=6642d2f84b0a3eb1",
       "duration": 5318
-    },
-    {
-      "title": "Unsichtbar",
-      "id": "Y3JpZDovL2Rhc2Vyc3RlLmRlL3RhdG9ydC9lYzhhN2NhOS1kMjA3LTQwMjAtYjYwMy0zZDQwYTg5YzFmOGY",
-      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:240cdd474a041210?w={width}&f=&ch=303cdeee592b8837",
-      "duration": 5313
     },
     {
       "title": "Außer Gefecht",
@@ -65,6 +52,12 @@
       "title": "Neugeboren",
       "duration": 5294,
       "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0887e9c49f8c2a11?w={width}&f=&ch=001788ab627f2b7d"
+    },
+    {
+      "id": "Y3JpZDovL3dkci5kZS9CZWl0cmFnLTUwYmJhNDExLTkwZGEtNGIyMy04ZmQzLTgyZGI0YzA2ZmU2OQ",
+      "title": "Waldlust",
+      "duration": 5328,
+      "image": "https://api.ardmediathek.de/image-service/images/urn:ard:image:7320df4b0909ed78?w={width}&f=&ch=0cda483d75a7f67e"
     }
   ]
 }

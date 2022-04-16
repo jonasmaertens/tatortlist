@@ -30,7 +30,7 @@ function resetFilters() {
         <label for="teams">Teams</label>
         <select
           multiple
-          size="1"
+          size="6"
           v-model="store.filters.team"
           id="teams"
           class="select"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TeaserList, { Teaser } from "@/components/TeaserList.vue";
 import { useTeasersStore } from "@/store/teasers";
+import { onActivated } from "vue";
 
 const store = useTeasersStore();
 function addTeaserHandler(teaser: Teaser, evt: string) {
@@ -9,6 +10,18 @@ function addTeaserHandler(teaser: Teaser, evt: string) {
   } else if (evt === "addWatchlist") {
     addToWatchlist(teaser);
   }
+}
+onActivated(() => {
+  const targets = document.querySelectorAll("[data-scrollTop]");
+  targets.forEach((target) => {
+    const pos = parseInt(target.getAttribute("data-scrollTop") || "0");
+    target.scrollTop = pos;
+  });
+});
+function scrollHandler(evt: Event) {
+  const target = evt.target as Element;
+  //console.log(target.scrollTop);
+  target.setAttribute("data-scrollTop", target.scrollTop.toString());
 }
 function addToWatched(teaser: Teaser) {
   const teaserToSend: Teaser = {
@@ -89,7 +102,7 @@ function touchEnd(
 const emit = defineEmits(["swipe", "openDetails"]);
 </script>
 <template>
-  <div :class="store.nowPos" @touchstart="touchStart">
+  <div :class="store.nowPos" @touchstart="touchStart" @scroll="scrollHandler">
     <TeaserList
       :teasers="store.teasersFiltered"
       :icons="[
