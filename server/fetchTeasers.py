@@ -3,6 +3,7 @@ import requests
 import json
 import re
 import time
+import os
 
 
 def clean_title(title):
@@ -31,6 +32,8 @@ for i in range(pages):
                     'image': teaser['images']['aspect16x9']['src'],
                     'duration': teaser['duration']} for teaser in new_teasers if teaser['duration'] > 3600]
     teasers += new_teasers
+#print date and time
+print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 print(f"num = {num}, pages = {pages}, len(teasers) = {len(teasers)}")
 
 for teaser in teasers:
@@ -55,5 +58,6 @@ for i in sorted(dupes, reverse=True):
     del teasers[i]
 print("Remaining: "+str(len(teasers)))
 # write to json file
-with open('teasers_cleaned.json', 'w', encoding="utf8") as json_file:
+dir_path = os.path.dirname(os.path.realpath(__file__))
+with open(os.path.join(dir_path, 'teasers_cleaned.json'), 'w', encoding="utf8") as json_file:
     json.dump(teasers, json_file, ensure_ascii=False)
