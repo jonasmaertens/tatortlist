@@ -10,6 +10,8 @@ def clean_title(title):
     title = title.replace('Tatort: ', '')
     # regex remove date in title
     title = re.sub('\s\([0-9]{4}\)', '', title)
+    title = re.sub(r" \| Tatort.*", "", title)
+    title = title.replace("Tatort - ", '').strip()
     return title
 
 
@@ -30,7 +32,7 @@ for i in range(pages):
     new_teasers = [{'title': teaser['longTitle'],
                     'id': teaser['id'],
                     'image': teaser['images']['aspect16x9']['src'],
-                    'duration': teaser['duration']} for teaser in new_teasers if teaser['duration'] > 3600]
+                    'duration': teaser['duration']} for teaser in new_teasers if teaser['duration'] > 3600 and 'Klare Sprache' not in teaser['longTitle'] and 'klare Sprache' not in teaser['longTitle']]
     teasers += new_teasers
 #print date and time
 print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))

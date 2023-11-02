@@ -64,7 +64,7 @@ function fetchTeasersWatchlist() {
     .then((teasers) => {
       store.teasersWatchlist = teasers;
       watchlistLoaded.value = true;
-      console.log(JSON.parse(JSON.stringify(store.teasersWatchlist)));
+      //console.log(JSON.parse(JSON.stringify(store.teasersWatchlist)));
     });
 }
 function fetchTeasersNow() {
@@ -82,7 +82,11 @@ function fetchTeasersAll() {
     .then((teasers) => {
       store.teasersAll = teasers;
       allLoaded.value = true;
-      //console.log(JSON.parse(JSON.stringify(store.teasersAll)));
+      // let allteams = new Set();
+      // Object.keys(store.teasersAll).forEach((key) => {
+      //   allteams.add(store.teasersAll[key][0].team);
+      // });
+      // console.log(allteams);
     });
 }
 </script>

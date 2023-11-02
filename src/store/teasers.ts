@@ -30,39 +30,47 @@ const emptyTeaserArray: Teaser[] = [];
 const emptyFilterArray: FilterArray = {
   watched: true,
   team: [
-    "Ballauf und Schenk",
-    "Ballauf und Schenk mit Ehrlicher und Kain",
-    "Ballauf und Schenk mit Saalfeld und Keppler",
     "Batic und Leitmayr mit Kalli Hammermann",
-    "Batic, Leitmayr und Kalli mit Faber, Bönisch, Dalay, Pawlak",
-    "Borowski",
-    "Borowski und Brandt",
-    "Borowski und Jung",
-    "Borowski und Sahin",
-    "Dorn und Lessing",
-    "Faber, Bönisch und Dalay",
-    "Faber, Bönisch und Krusenstern",
-    "Faber, Bönisch, Dalay und Kossik",
-    "Faber, Bönisch, Dalay und Pawlak",
-    "Faber, Bönisch, Pawlak und Herzog",
-    "Falke und Grosz",
-    "Falke und Lorenz",
-    "Gorniak, Winkler und Schnabel",
-    "Lannert und Bootz",
-    "Lindholm",
-    "Lindholm und Borowski",
-    "Lindholm und Schmitz",
-    "Odenthal",
-    "Odenthal und Kopper",
+    "Murot",
+    "Eisner und Fellner",
+    "Grandjean und Ott",
+    "Janneke und Brix",
     "Odenthal und Stern",
-    "Odenthal, Kopper und Stern",
-    "Rubin und Karow",
-    "Saalfeld und Keppler mit Ballauf und Schenk",
-    "Schürk und Hölzer",
-    "Schürk, Hölzer, Baumann und Heinrich",
-    "Sieland, Gorniak und Schnabel",
+    "Lannert und Bootz",
+    "Borowski und Sahin",
+    "Faber, Pawlak und Herzog",
+    "Falke und Grosz",
+    "Bonard und Karow",
+    "Ballauf und Schenk",
     "Thiel und Boerne",
+    "Schürk, Hölzer, Baumann und Heinrich",
+    "Gorniak, Winkler und Schnabel",
+    "Rubin und Karow",
+    "Lindholm und Schmitz",
+    "Faber, Bönisch, Pawlak und Herzog",
+    "Lindholm",
+    "Schürk und Hölzer",
+    "Dorn und Lessing",
+    "Faber, Bönisch, Dalay und Pawlak",
     "Tschiller und Gümer",
+    "Faber, Bönisch und Krusenstern",
+    "Sieland, Gorniak und Schnabel",
+    "Borowski",
+    "Faber, Bönisch und Dalay",
+    "Odenthal, Kopper und Stern",
+    "Borowski und Brandt",
+    "Faber, Bönisch, Dalay und Kossik",
+    "Lindholm und Borowski",
+    "Odenthal und Kopper",
+    "Falke und Lorenz",
+    "Ballauf und Schenk mit Saalfeld und Keppler",
+    "Saalfeld und Keppler mit Ballauf und Schenk",
+    "Eisner",
+    "Borowski und Jung",
+    "Ballauf und Schenk mit Ehrlicher und Kain",
+    "Ehrlicher und Kain mit Ballauf und Schenk",
+    "Odenthal",
+    "Wiegand",
   ],
   city: [],
   after: "2007-01-01",
@@ -81,7 +89,9 @@ export const useTeasersStore = defineStore("teasers", {
     teasersNowNew: (state) =>
       state.teasersNow.filter((teaser) => {
         return !state.teasersWatched.find(
-          (teaserWatched) => teaserWatched.title == teaser.title
+          (teaserWatched) =>
+            teaserWatched.title.toLowerCase().trim() ==
+            teaser.title.toLowerCase().trim()
         );
       }),
     teasersFiltered: (state) =>
@@ -90,10 +100,19 @@ export const useTeasersStore = defineStore("teasers", {
           return {
             ...teaser,
             watched: state.teasersWatched.some(
-              (teaserWatched) => teaserWatched.title == teaser.title
+              (teaserWatched) =>
+                teaserWatched.title.toLowerCase().trim() ==
+                teaser.title.toLowerCase().trim()
             ),
-            team: state.teasersAll[teaser.title]
-              ? state.teasersAll[teaser.title].map(
+            team: Object.keys(state.teasersAll)
+              .map((key) => key.toLowerCase())
+              .includes(teaser.title.toLowerCase())
+              ? Object.fromEntries(
+                  Object.entries(state.teasersAll).map(([k, v]) => [
+                    k.toLowerCase(),
+                    v,
+                  ])
+                )[teaser.title.toLowerCase()].map(
                   (teaserDetail) => teaserDetail.team
                 )
               : ["Unknown Team"],
@@ -122,14 +141,28 @@ export const useTeasersStore = defineStore("teasers", {
               ? teaser.date.some((date) => date > new Date(state.filters.after))
               : true)
         ),
-    teams: (state) =>
-      Array.from(
+    teams(state) {
+      return Array.from(
         new Set(
-          Object.values(state.teasersAll)
+          Object.values(state.teasersNow)
             .flat()
-            .map((teaser) => teaser.team)
+            .map((teaser) =>
+              Object.keys(state.teasersAll)
+                .map((key) => key.toLowerCase())
+                .includes(teaser.title.toLowerCase())
+                ? Object.fromEntries(
+                    Object.entries(state.teasersAll).map(([k, v]) => [
+                      k.toLowerCase(),
+                      v,
+                    ])
+                  )[teaser.title.toLowerCase()].map(
+                    (teaserDetail) => teaserDetail.team
+                  )[0]
+                : "Unknown Team"
+            )
         )
-      ).sort(),
+      ).sort();
+    },
     cities: (state) =>
       Array.from(
         new Set(

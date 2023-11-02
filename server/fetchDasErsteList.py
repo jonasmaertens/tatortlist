@@ -4,6 +4,7 @@ import json
 import os
 from collections import defaultdict
 import time
+import re
 
 
 alle = defaultdict(list)
@@ -14,12 +15,14 @@ def add_to_list(responseText):
         text = link.text
         try:
             title = text.split("\n")[0].replace("Tatort: ", "").strip()
+            title = re.sub(r" \| Tatort.*", "", title)
             team = text.split("\n")[1].split("(")[1].strip()
             city = text.split("\n")[1].split("(")[-1].split(")")[0].strip()
             date = text.split("\n")[-1].strip()
             #print({"title": title, "team": team, "city": city})
             new = {"team": team, "city": city, "date": date}
-            alle[title].append(new)
+            if "Klare Sprache" not in title:
+                alle[title].append(new)
         except:
             #print(f"{text}")
             pass
