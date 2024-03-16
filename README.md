@@ -13,6 +13,6 @@ npm run build
 rm -r ./server/public/* && cp -a ./dist/. ./server/public/
 node ./server/tatortlist.js
 ```
-Server läuft unter PORT 4000 HTTP, auf Raspi über Nginx Reverse Proxy auf https://***REMOVED*** (URL hinterlegt in .env)
+Server läuft unter PORT 4000 HTTP, auf Raspi über Nginx Reverse Proxy auf https://{YOUR_DOMAIN} (URL hinterlegt in .env)
 
 

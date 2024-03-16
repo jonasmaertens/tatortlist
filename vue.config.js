@@ -1,7 +1,7 @@
 module.exports = {
   transpileDependencies: true,
   devServer: {
-    allowedHosts: ["***REMOVED***"],
+    allowedHosts: ["{YOUR_DOMAIN}"],
   },
   pwa: {
     workboxOptions: {
