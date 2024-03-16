@@ -15,7 +15,7 @@ def clean_title(title):
     return title
 
 
-# get json from 'https://api.ardmediathek.de/page-gateway/widgets/ard/compilation/71IpTwcl8yta2O3eVCSJR0?pageNumber=0&pageSize=1'
+# get json 
 teasers = []
 # setup pagination
 resp = requests.get(
@@ -45,18 +45,10 @@ dupes = []
 for i in range(len(teasers)):
     for j in range(i+1, len(teasers)):
         if teasers[i]['title'] == teasers[j]['title']:
-            #print(teasers[i]['title'])
-            # print(teasers[i]['id'])
-            # print(teasers[j]['id'])
-            # print(teasers[i]['image'])
-            # print(teasers[j]['image'])
-            # print(teasers[i]['duration'])
-            # print(teasers[j]['duration'])
             # mark for deletion
             dupes.append(j)
 # delete duplicates
 for i in sorted(dupes, reverse=True):
-    #print(teasers[i]['title'])
     del teasers[i]
 print("Remaining: "+str(len(teasers)))
 # write to json file
