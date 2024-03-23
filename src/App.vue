@@ -41,7 +41,6 @@ onMounted(() => {
   fetchTeasersAll();
 });
 function openDetails(teaser: Teaser, evt: PointerEvent) {
-  //console.log(teaser, evt.clientY - 20);
   lastClickPos.value = evt.clientY - 20 + "px";
   detailsOpen.value = true;
   teaserDetail.value = teaser;
@@ -55,7 +54,6 @@ function fetchTeasersWatched() {
     .then((teasers) => {
       store.teasersWatched = teasers;
       watchedLoaded.value = true;
-      //console.log(JSON.parse(JSON.stringify(store.teasersWatched)));
     });
 }
 function fetchTeasersWatchlist() {
@@ -64,7 +62,6 @@ function fetchTeasersWatchlist() {
     .then((teasers) => {
       store.teasersWatchlist = teasers;
       watchlistLoaded.value = true;
-      //console.log(JSON.parse(JSON.stringify(store.teasersWatchlist)));
     });
 }
 function fetchTeasersNow() {
@@ -73,7 +70,6 @@ function fetchTeasersNow() {
     .then((teasers) => {
       store.teasersNow = teasers;
       nowLoaded.value = true;
-      //console.log(JSON.parse(JSON.stringify(store.teasersNow)));
     });
 }
 function fetchTeasersAll() {
@@ -82,11 +78,6 @@ function fetchTeasersAll() {
     .then((teasers) => {
       store.teasersAll = teasers;
       allLoaded.value = true;
-      // let allteams = new Set();
-      // Object.keys(store.teasersAll).forEach((key) => {
-      //   allteams.add(store.teasersAll[key][0].team);
-      // });
-      // console.log(allteams);
     });
 }
 </script>
